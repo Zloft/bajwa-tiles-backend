@@ -6,7 +6,8 @@
   "scripts": {
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
-    "dev": "nodemon --watch './src/**/*.ts' --exec ts-node ./src/index.ts"
+    "dev": "nodemon --watch './src/**/*.ts' --exec ts-node ./src/index.ts",
+    "start": "node dist/index.js"
   },
   "author": "Abdul Rehman",
   "license": "ISC",
