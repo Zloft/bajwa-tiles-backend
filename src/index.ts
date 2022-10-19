@@ -1,9 +1,14 @@
+import * as dotEnv from 'dotenv';
+dotEnv.config();
+
 import 'reflect-metadata'; // this shim is required
+import { sequelize } from './config/db';
 import { createExpressServer, Action } from 'routing-controllers';
 const { createLogger, format, transports } = require('winston');
 
 import { IndexController } from './controllers';
 import { HelmetMiddleware } from './middlewares';
+
 
 
 // Express Server Setup
@@ -25,11 +30,19 @@ const app = createExpressServer({
   middlewares: [HelmetMiddleware],
   controllers: [IndexController]
 });
-app.listen(port, () => {
+app.listen(port, async () => {
   logger.log(
     {
-     level: 'info', 
+     level: 'info',
      message: `SERVER: Server running on: ${port}`
     }
    );
+
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+
 });
