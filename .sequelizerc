@@ -1,0 +1,11 @@
+
+const { resolve } = require('path');
+const sequelizeDir = process.env.MIGRATION_DIR || 'src';
+const configRes = resolve(`${sequelizeDir}/config`, 'config.json');
+
+module.exports = {
+  'config': configRes,
+  'migrations-path': resolve(`${sequelizeDir}/migrations`),
+  'models-path': resolve(`${sequelizeDir}/models`),
+  'seeders-path': resolve(`${sequelizeDir}/seeders`),
+};
