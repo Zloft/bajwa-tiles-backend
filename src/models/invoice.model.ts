@@ -44,6 +44,7 @@ const InvoiceModel = (sequelize: Sequelize) => {
     },
     customerPhone: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
     },
     productName: {
