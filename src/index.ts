@@ -6,8 +6,8 @@ import { sequelize } from './config/db';
 import { createExpressServer, Action } from 'routing-controllers';
 const { createLogger, format, transports } = require('winston');
 
-import { IndexController } from './controllers';
-import { HelmetMiddleware } from './middlewares';
+import { IndexController, InvoicesController } from './controllers';
+import { BodyParserMiddleware, HelmetMiddleware, MorganMiddleware } from './middlewares';
 
 
 
@@ -27,8 +27,8 @@ const app = createExpressServer({
      message: 'Access is denied'
    }
   },
-  middlewares: [HelmetMiddleware],
-  controllers: [IndexController]
+  middlewares: [HelmetMiddleware, MorganMiddleware, BodyParserMiddleware],
+  controllers: [IndexController, InvoicesController]
 });
 app.listen(port, async () => {
   logger.log(
