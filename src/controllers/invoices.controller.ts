@@ -68,7 +68,7 @@ export class InvoicesController {
 
       return response.status(200).json({
         invoice: {
-          ...invoice,
+          ...(invoice.get({ plain: true })),
           payments: paymentList
         }
       });
