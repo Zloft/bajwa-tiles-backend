@@ -1,0 +1,1 @@
+export const PAYMENT_TYPES = ['Debt', 'Credit', 'Cash'];
