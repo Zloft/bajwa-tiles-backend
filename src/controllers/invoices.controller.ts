@@ -67,7 +67,10 @@ export class InvoicesController {
       await invoice.$set('payments', [...paymentList]);
 
       return response.status(200).json({
-        invoice
+        invoice: {
+          ...invoice,
+          payments: paymentList
+        }
       });
     } catch (error) {
       return response.status(500).json({
