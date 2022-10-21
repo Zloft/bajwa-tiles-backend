@@ -13,7 +13,7 @@ export const invoiceSchema = Joi.object({
     paymentType: Joi.string().required().equal(...PAYMENT_TYPES),
     amount: Joi.number().required(),
   }).min(1).required()
-}).custom((value, helper) => {  
+}).custom((value, helper) => {
   const { productPrice, productQuantity, payments } = value;
   const netPayable = productPrice * productQuantity;
 
