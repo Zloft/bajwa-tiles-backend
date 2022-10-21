@@ -1,0 +1,1 @@
+export { invoiceSchema } from './invoice.validator';

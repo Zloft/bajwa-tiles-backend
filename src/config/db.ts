@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 const { DB_NAME, DB_ADMIN_USER, DB_ADMIN_PASSWORD, DB_HOST } = process.env;
 
 
