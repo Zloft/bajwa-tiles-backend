@@ -1,82 +1,48 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, Model, Optional, Sequelize } from 'sequelize';
+import { Table, Column, Model, HasMany, DataType, PrimaryKey, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Payment } from './payments.modal';
+import { Tenant } from './tenant.model';
 
-const InvoiceModel = (sequelize: Sequelize) => {
-  interface InvoiceAttributes {
-    id: string;
-    customerName: string;
-    customerPhone: string;
-    productName: string;
-    productQuantity: number;
-    productPrice: number;
-    productMeasurements: string;
-    netPayable: number;
-    tenantId: string;
-    // updatedAt?: Date;
-    // deletedAt?: Date;
-  }
+@Table({
+  timestamps: true,
+  tableName: 'invoices'
+})
+export class Invoice extends Model {
+  @PrimaryKey
+  @Column({
+    type: DataType.UUID
+  })
+  id: string;
 
-  class Invoice extends Model<InferAttributes<Invoice>, InferCreationAttributes<Invoice>> {
-    declare id: string;
-    declare customerName: string;
-    declare customerPhone: string;
-    declare productName: string;
-    declare productQuantity: number;
-    declare productPrice: number;
-    declare productMeasurements: string;
-    declare netPayable: number;
-    declare tenantId: string;
+  @Column
+  customerName: string;
 
-    // timestamps!
-    declare readonly createdAt?: Date;
-    declare readonly updatedAt?: Date;
-    declare readonly deletedAt?: Date;
-  }
+  @Column
+  customerPhone: string;
 
-  Invoice.init({
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    customerName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    customerPhone: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-    },
-    productName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    productQuantity: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    productPrice: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    productMeasurements: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    netPayable: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    tenantId: {
-      type: DataTypes.UUID,
-    },
-  }, {
-    timestamps: true,
-    sequelize,
-    tableName: 'invoices'
-  });
+  @Column
+  productName: string;
 
-  return Invoice;
+  @Column
+  productQuantity: number;
+
+  @Column
+  productPrice: number;
+
+  @Column
+  productMeasurements: string;
+
+  @Column
+  netPayable: number;
+
+  @ForeignKey(() => Tenant)
+  @Column({
+    type: DataType.UUID
+  })
+  tenantId: string;
+
+  @BelongsTo(() => Tenant)
+  tenant: Tenant;
+
+  @HasMany(() => Payment)
+  payments: Payment[];
 }
-
-export default InvoiceModel;
