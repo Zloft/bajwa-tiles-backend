@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { v4 as uuidV4 } from 'uuid';
 import { Invoice } from '../models';
 import { Body, Controller, Get, Post, Req, Res } from 'routing-controllers';
+import { invoiceSchema } from '../validators';
 
 @Controller('/invoices')
 export class InvoicesController {
@@ -17,15 +18,21 @@ export class InvoicesController {
   @Post('/add')  
   async addInvoice(@Body() invoiceData: any, @Res() response: Response) {
     try {
+
+      const { value, error } = invoiceSchema.validate(invoiceData);
+
+      if (error) return response.status(400).json({ error });
+      
       const { 
-        netPayable,
         productName,
         customerName, 
         customerPhone, 
         productPrice,
         productQuantity,
         productMeasurements, 
-      } = invoiceData;
+      } = value;
+
+      const netPayable = productPrice * productQuantity;
 
       const invoice = await Invoice.create({
         id: uuidV4(),
@@ -38,7 +45,7 @@ export class InvoicesController {
         productQuantity,
       });
 
-      return response.json({
+      return response.status(200).json({
         invoice
       });
     } catch (error) {
