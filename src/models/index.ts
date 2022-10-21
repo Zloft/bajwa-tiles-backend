@@ -1,26 +1,14 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '../config/db';
 import * as config from '../config/config';
-import InvoiceModel from './invoice.model';
+import { Invoice } from './invoice.model';
+import { Payment } from './payments.modal';
+import { Tenant } from './tenant.model';
 
-export const Invoice = InvoiceModel(sequelize);
-export { sequelize };
-export { Sequelize };
+sequelize.addModels([Tenant, Invoice, Payment])
 
 
-// fs
-//   .readdirSync(__dirname)
-//   .filter((file: any) => {
-//     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-//   })
-//   .forEach((file: any) => {
-//     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-//     db[model.name] = model;
-//   });
+export { Sequelize, sequelize, Invoice, Payment };
 
-// Object.keys(db).forEach(modelName => {
-//   if (db[modelName].associate) {
-//     db[modelName].associate(db);
-//   }
-// });
+
 
