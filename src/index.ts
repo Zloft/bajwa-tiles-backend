@@ -7,7 +7,7 @@ import { createExpressServer, Action } from 'routing-controllers';
 const { createLogger, format, transports } = require('winston');
 
 import { IndexController, InvoicesController } from './controllers';
-import { BodyParserMiddleware, HelmetMiddleware, MorganMiddleware } from './middlewares';
+import { BodyParserMiddleware, CORsMiddleware, HelmetMiddleware, MorganMiddleware } from './middlewares';
 
 
 
@@ -27,7 +27,7 @@ const app = createExpressServer({
      message: 'Access is denied'
    }
   },
-  middlewares: [HelmetMiddleware, MorganMiddleware, BodyParserMiddleware],
+  middlewares: [HelmetMiddleware, CORsMiddleware, MorganMiddleware, BodyParserMiddleware],
   controllers: [IndexController, InvoicesController]
 });
 app.listen(port, async () => {
